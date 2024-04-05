@@ -5,6 +5,7 @@ public class SumaFilasMatrix {
     private static final int NUM_THREADS = 3;
     private static volatile int currentRow = 0;
     private static volatile int[][] MTX = new int[N][N];
+    private static Thread[] threads = new Thread[NUM_THREADS];
     private static final AtomicInteger[] STATES = new AtomicInteger[NUM_THREADS];
 
     public static void LoadMatrix() {
@@ -40,8 +41,6 @@ public class SumaFilasMatrix {
         ShowMatrix();
         System.out.println();
         System.out.println("Resultado en serial => " + SumSerial());
-        Thread[] threads = new Thread[NUM_THREADS];
-
         // Inicializamos los elementos del arreglo STATES
         for (int i = 0; i < NUM_THREADS; i++) {
             STATES[i] = new AtomicInteger(0);
