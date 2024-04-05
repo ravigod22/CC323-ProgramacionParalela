@@ -1,6 +1,6 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Prueba3 {
+public class SumaFilasMatrix {
     private static final int N = 20;
     private static final int NUM_THREADS = 3;
     private static volatile int currentRow = 0;
@@ -49,12 +49,12 @@ public class Prueba3 {
 
         // Iteramos sobre cada hilo
         for (int i = 0; i < NUM_THREADS; i++) {
-            final int threadIndex = i;
+            final int indice = i;
             threads[i] = new Thread(() -> {
                 // Mientras haya intervalos disponibles
                 while (true) {
                     int row;
-                    synchronized (Prueba3.class) { // Sincronizar la actualización de currentInterval
+                    synchronized (SumaFilasMatrix.class) { // Sincronizar la actualización de currentInterval
                         if (currentRow >= N) {
                             break; // Salir del bucle si no hay más intervalos disponibles
                         }
@@ -65,8 +65,8 @@ public class Prueba3 {
                     for (int j = 0; j < N; ++j) {
                         temp += MTX[row][j];
                     }
-                    STATES[threadIndex].addAndGet(temp); // Usamos addAndGet para operaciones atómicas
-                    System.out.println("Hilo " + (threadIndex + 1) + " esta procesando la fila " + row + " ,y resultado: " + temp);
+                    STATES[indice].addAndGet(temp); // Usamos addAndGet para operaciones atómicas
+                    System.out.println("Hilo " + (indice + 1) + " esta procesando la fila " + row + " ,y resultado: " + temp);
                     try {
                         Thread.sleep(1000); // Simulamos el procesamiento con una espera de 1 segundo
                     } catch (InterruptedException e) {
