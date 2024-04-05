@@ -1,12 +1,12 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Prueba2 {
+public class SumaIntervalosParalelo {
     private static final int N = 100;
     private static final int NUM_INTERVALS = 10;
     private static final int NUM_THREADS = 3;
-    private static volatile int currentInterval = 0;
+    private static volatile int actual = 0;
     private static volatile int[] X = new int[N];
-    private static final AtomicInteger[] STATES = new AtomicInteger[NUM_THREADS]; // Cambiar a AtomicInteger
+    private static final AtomicInteger[] STATES = new AtomicInteger[NUM_THREADS];
 
     public static void LoadVector() {
         for (int i = 0; i < N; ++i) {
@@ -43,26 +43,26 @@ public class Prueba2 {
 
         // Iteramos sobre cada hilo
         for (int i = 0; i < NUM_THREADS; i++) {
-            final int threadIndex = i;
+            final int indice = i;
             threads[i] = new Thread(() -> {
                 // Mientras haya intervalos disponibles
                 while (true) {
-                    int startInterval;
-                    int endInterval;
-                    synchronized (Prueba2.class) { // Sincronizar la actualización de currentInterval
-                        if (currentInterval >= NUM_INTERVALS) {
+                    int start;
+                    int end;
+                    synchronized (SumaIntervalosParalelo.class) { // Sincronizar la actualización de actual
+                        if (actual >= NUM_INTERVALS) {
                             break; // Salir del bucle si no hay más intervalos disponibles
                         }
-                        startInterval = currentInterval * 10;
-                        endInterval = Math.min(startInterval + 10, 100) - 1;
-                        currentInterval++; // Actualizamos el intervalo actual
+                        start = actual * 10;
+                        endI = Math.min(start + 10, 100) - 1;
+                        actual++; // Actualizamos el intervalo actual
                     }
                     int temp = 0;
-                    for (int j = startInterval; j <= endInterval; ++j) {
+                    for (int j = start; j <= end; ++j) {
                         temp += X[j];
                     }
-                    STATES[threadIndex].addAndGet(temp); // Usamos addAndGet para operaciones atómicas
-                    System.out.println("Hilo " + (threadIndex + 1) + " esta procesando el intervalo de " + startInterval + " hacia " + endInterval + 
+                    STATES[indice].addAndGet(temp); // Usamos addAndGet para operaciones atómicas
+                    System.out.println("Hilo " + (indice + 1) + " esta procesando el intervalo de " + start + " hacia " + end + 
                             " con resultado: " + temp);
                     try {
                         Thread.sleep(1000); // Simulamos el procesamiento con una espera de 1 segundo
