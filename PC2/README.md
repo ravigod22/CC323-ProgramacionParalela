@@ -16,7 +16,7 @@
 <ol>
     <li>Open a terminal</li>
     <li>Navigate to the directory containing your Kotlin file (.kt)</li>
-    <li>Use the Kotlin compiler (<b>kotlinc</b>) to compile your Kotlin file
+    <li>Use the Kotlin compiler (<b>kotlinc</b>) to compile your Kotlin file with the following command:
         <p><b>kotlinc MyFile.kt -include-runtime -d MyFile.jar</b></p>
     </li>
     <li>Once the compilation command completes without errors, you can run the file with the following command:
