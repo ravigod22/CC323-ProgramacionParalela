@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class descompositionLU {
     private static final int N = 2000; 
     private static final double[][] M = new double[N][N];
@@ -12,10 +16,28 @@ public class descompositionLU {
     }
     //=============================================================
     public static void LoadMatrix() {
-        for (int i = 0; i < N; ++i) {
-            for (int j = 0; j < N; ++j) {
-                M[i][j] = (int)((Math.random() * 10 + 1)); 
+        String fileName = "in.txt";
+        readMatrixFromFile(fileName);
+    }
+    //=============================================================
+    public static void readMatrixFromFile(String fileName) {
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+            int rows = 0;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                int k = line.length();
+                if (k == 0) {
+                    break;
+                }
+                String[] values = line.trim().split("\\s+");
+                for (int col = 0; col < N; ++col) {
+                    int temporal = Integer.parseInt(values[col]);
+                    M[rows][col] = (double) temporal;
+                }
+                rows++;
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
     //=============================================================
@@ -119,4 +141,3 @@ public class descompositionLU {
         System.out.println();
     }
 }
-
