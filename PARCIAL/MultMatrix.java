@@ -1,4 +1,4 @@
-ublic class MultMatrix {
+public class MultMatrix {
     private static final int N = 1000;
     private static final double T = 8;
     private static final double[][] A = new double[N][N];
